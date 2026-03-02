@@ -2,6 +2,7 @@
 #define UNIGL_H
 #ifdef USEGLES
 #include <GLES/gl.h>
+#include <GLES/egl.h>
 #include <GLES/glext.h>
 #ifdef __cplusplus
 extern "C" {
