@@ -1,5 +1,5 @@
 #pragma once
-#if defined(__linux__)
+#if defined(__linux__) and not defined(ANDROID)
 #include <_types.h>
 #include <sound/SoundSystem.hpp>
 

@@ -1,4 +1,5 @@
 #pragma once
+#ifndef ANDROID
 #include <AppPlatform.hpp>
 #include <SDL/SDL.h>
 
@@ -21,3 +22,4 @@ struct AppPlatform_sdl : AppPlatform{
 	void init();
 	void onKeyPressed(struct Minecraft*, SDLKey key, bool pressed);
 };
+#endif

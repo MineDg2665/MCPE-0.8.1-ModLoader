@@ -3,7 +3,7 @@
 #if defined(__WIN32__)
 #include <sound/SoundSystemDirectSound.hpp>
 #define SS_SUPER_CLASS SoundSystemDirectSound
-#elif defined(__linux__)
+#elif not defined(ANDROID) and defined(__linux__)
 #include <sound/SoundSystemAL.hpp>
 #define SS_SUPER_CLASS SoundSystemAL
 #else

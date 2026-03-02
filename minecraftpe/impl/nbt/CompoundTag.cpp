@@ -32,7 +32,7 @@ bool_t CompoundTag::contains(const std::string& name, int32_t id) const{
 }
 Tag* CompoundTag::copy(void){
 	CompoundTag* cp = new CompoundTag(this->getName());
-	std::map<const std::string, Tag*>::iterator it;
+	std::map<std::string, Tag*>::iterator it;
 	for(it = this->value.begin(); it != this->value.end(); ++it){
 		const std::string& name = it->first;
 		Tag* tag = it->second->copy();
@@ -43,7 +43,7 @@ Tag* CompoundTag::copy(void){
 }
 
 void CompoundTag::deleteChildren(void){
-	std::map<const std::string, Tag*>::iterator it_this = this->value.begin();
+	std::map<std::string, Tag*>::iterator it_this = this->value.begin();
 	for(; it_this != this->value.end(); ++it_this){
 		Tag* tag = it_this->second;
 		if(tag){
@@ -59,8 +59,8 @@ bool_t CompoundTag::equals(const Tag& t){
 	CompoundTag* tg = (CompoundTag*) &t;
 	bool_t eq = Tag::equals(t);
 	if(eq) {
-		std::map<const std::string, Tag*>::iterator it_this = this->value.begin();
-		std::map<const std::string, Tag*>::iterator it_that = tg->value.begin();
+		std::map<std::string, Tag*>::iterator it_this = this->value.begin();
+		std::map<std::string, Tag*>::iterator it_that = tg->value.begin();
 		for(; it_this != this->value.end(); ++it_this){
 			if(it_that == tg->value.end()) return 0;
 			const std::string& name_this = it_this->first;
@@ -98,7 +98,7 @@ std::string CompoundTag::toString(void){
 	return std::to_string(this->value.size()) + " entries";
 }
 void CompoundTag::write(IDataOutput* out){
-	std::map<const std::string, Tag*>::iterator it_this = this->value.begin();
+	std::map<std::string, Tag*>::iterator it_this = this->value.begin();
 	while(it_this != this->value.end()){
 		Tag* tag = it_this->second;
 		Tag::writeNamedTag(tag, out);

@@ -1,3 +1,4 @@
+#ifndef ANDROID
 #include <_types.h>
 #include <utils.h>
 #include <sys/time.h>
@@ -23,3 +24,4 @@ int main(){
 	appPlatform.init();
 	return 0;
 }
+#endif

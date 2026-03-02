@@ -1,3 +1,4 @@
+#ifndef ANDROID
 #include <AppPlatform_sdl.hpp>
 #include <_AssetFile.hpp>
 #include <NinecraftApp.hpp>
@@ -126,6 +127,12 @@ void AppPlatform_sdl::onKeyPressed(Minecraft* mc, SDLKey key, bool pressed) {
 			SDL_WM_ToggleFullScreen(this->sdl_surface);
 		}
 	}
+	if(key == SDLK_F5 && mc->player && !mc->currentScreen && mc->mouseGrabbed) {
+		if(pressed) {
+			mc->options.toggle(&Options::Option::THIRD_PERSON, 0);
+
+		}
+	}
 	if(key == SDLK_ESCAPE) {
 		if(pressed) mc->handleBack(0);
 		return;
@@ -188,6 +195,8 @@ void AppPlatform_sdl::init(){
 	static const int rbkey = 103;
 	bool windowActive = 1;
 	unsigned int lastBuiltTick = 0;
+	uint16_t lastMX, lastMY;
+	bool prevMGrabbed = 0;
 	while(running){
 
 		if(!hasInit){
@@ -204,6 +213,14 @@ void AppPlatform_sdl::init(){
 			SDL_WM_GrabInput(SDL_GRAB_OFF);
 			SDL_ShowCursor(SDL_ENABLE);
 		}
+
+
+		bool justGrabbed = mc->mouseGrabbed && !prevMGrabbed;
+		if(windowActive && !mc->mouseGrabbed && prevMGrabbed) {
+			SDL_WarpMouse(this->screenWidth / 2, this->screenHeight / 2);
+		}
+
+		prevMGrabbed = mc->mouseGrabbed;
 
 
 		while(SDL_PollEvent(&appPlatform.sdl_event)){
@@ -234,10 +251,13 @@ void AppPlatform_sdl::init(){
 					mc->setSize(this->screenWidth, this->screenHeight);
 					break;
 				case SDL_MOUSEMOTION:
+#ifdef __WIN32__
+					if(justGrabbed) break; //ignore first mouse motion even after grab
+#endif
 					if(!windowActive) break;
 					_mx = appPlatform.sdl_event.motion.x;
 					_my = appPlatform.sdl_event.motion.y;
-					Mouse::feed(0, 0, _mx, _my, appPlatform.sdl_event.motion.xrel, appPlatform.sdl_event.motion.yrel);
+					Mouse::feed(0, 0, _mx, _my,appPlatform.sdl_event.motion.xrel, appPlatform.sdl_event.motion.yrel);
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 				case SDL_MOUSEBUTTONUP:
@@ -253,7 +273,6 @@ void AppPlatform_sdl::init(){
 						if(appPlatform.sdl_event.button.button == SDL_BUTTON_RIGHT) {
 							key = rbkey;
 						}
-
 
 						if(key && appPlatform.sdl_event.type == SDL_MOUSEBUTTONDOWN && !Keyboard::_states[key]){
 							Keyboard::feed(key, 1);
@@ -382,3 +401,4 @@ AppPlatform_sdl::AppPlatform_sdl() {
 AppPlatform_sdl::~AppPlatform_sdl(){
 	this->sdlCtxDestroy();
 }
+#endif

@@ -101,7 +101,6 @@ void Sheep::setSheared(bool_t a2) {
 	int8_t b = this->synchedEntityData.getByte(16);
 	if(a2) b |= 0x10;
 	else b &= 0xEF;
-	printf("SHEARED: %d\n", b);
 	this->synchedEntityData.set<int8_t>(16, b); //signed char
 }
 

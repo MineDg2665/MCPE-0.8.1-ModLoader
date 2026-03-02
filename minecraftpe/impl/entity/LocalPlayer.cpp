@@ -439,10 +439,10 @@ void LocalPlayer::aiStep() {
 			if(forwardInput < 0.01) {
 				this->field_B7C = 0.75;
 			}
-			if(v6->field_B) {
+			if(v6->flyUpPressed) {
 				this->motionY = this->motionY + 0.15;
 			}
-			if(v6->field_C) {
+			if(v6->flyDownPressed) {
 				this->motionY = this->motionY - 0.15;
 			}
 		}

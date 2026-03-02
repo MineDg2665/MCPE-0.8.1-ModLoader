@@ -1,4 +1,4 @@
-#if defined(__linux__)
+#if defined(__linux__) and not defined(ANDROID)
 #include <sound/SoundSystemAL.hpp>
 #include <AL/al.h>
 #include <AL/alc.h>

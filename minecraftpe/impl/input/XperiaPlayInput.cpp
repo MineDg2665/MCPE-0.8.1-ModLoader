@@ -42,12 +42,12 @@ void XperiaPlayInput::tick(Player* player){
 	jumpingMaybe = this->jumpingMaybe;
 	this->sneakingMaybe = sneakingMaybe;
 	v6 = jumpingMaybe && this->inputs[0];
-	this->field_B = v6;
+	this->flyUpPressed = v6;
 	if ( jumpingMaybe )
 	{
 		jumpingMaybe = this->inputs[1];
 	}
-	this->field_C = jumpingMaybe;
+	this->flyDownPressed = jumpingMaybe;
 	if ( jumpingMaybe || v6 )
 	{
 		if ( player )

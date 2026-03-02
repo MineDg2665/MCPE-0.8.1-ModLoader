@@ -5,7 +5,7 @@
 struct ListTag;
 
 struct CompoundTag : public Tag{
-	std::map<const std::string, Tag*> value;
+	std::map<std::string, Tag*> value;
 
 	CompoundTag(const CompoundTag&);
 	CompoundTag(const std::string&);
