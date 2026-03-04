@@ -129,7 +129,7 @@ void AppPlatform::buyGame(void){
 void AppPlatform::finish(void){
 
 }
-bool_t AppPlatform::supportsTouchscreen(void){
+bool AppPlatform::supportsTouchscreen(void){
 	return 1;
 }
 bool_t AppPlatform::hasIDEProfiler(void){

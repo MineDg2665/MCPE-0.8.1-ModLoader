@@ -401,7 +401,7 @@ void AppPlatform_android::finish(void){
 		}
 	}
 }
-bool_t AppPlatform_android::supportsTouchscreen(void){
+bool AppPlatform_android::supportsTouchscreen(void){
 	if ( !this->initialized || !this->_jniSupportsNonTouchscreen )
 	{
 		return 1;

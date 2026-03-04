@@ -461,93 +461,87 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID&, struct EntityEv
 		}
 	}
 }
-void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID&, struct ChunkDataPacket* a3) {
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID&, struct ChunkDataPacket* pk) {
 	if(this->level) {
-		LevelChunk* v7 = this->level->getChunkSource()->create(a3->xPos, a3->zPos);
-		if(v7) {
-			if(!v7->isEmpty()) {
+		LevelChunk* chunk = this->level->getChunkSource()->create(pk->xPos, pk->zPos);
+		if(chunk) {
+			if(!chunk->isEmpty()) {
 				int v29 = 16;
-				int v30 = 0;
-				int v39 = 0;
+				int index = 0;
+				int maxY = 0;
 				int v31 = 0;
-				int v44 = 16 * a3->xPos;
-				int v38 = 128;
+				int xw = 16 * pk->xPos;
+				int minY = 128;
 				int v37 = 0;
 				int v36 = 0;
-				int v45 = 16 * a3->zPos;
+				int zw = 16 * pk->zPos;
 				int v35 = 16;
-				do {
-					int v9 = 0;
-					unsigned char v46 = 0;
-					a3->stream.Read<unsigned char>(v46);
-					if(v46) {
-						int v10 = v30 >> 4;
-						int v34 = v30 & 0xF;
+				for(int index = 0; index != 256; ++index) {
+					int mc = 0;
+					unsigned char hm = 0;
+					pk->stream.Read<unsigned char>(hm);
+					if(hm) {
+						int zc = index >> 4;
+						int xc = index & 0xF;
 						do {
-							if((((int)v46 >> v9) & 1) != 0) {
-								int v11 = 16 * v9;
-								int v32 = v10;
-								char dest[0x10];
-								a3->stream.Read(dest, 0x10u);
-								char v48[0x8];
-								int v12 = 0;
-								a3->stream.Read(v48, 8u);
-								v10 = v32;
-								int x = v44 + v34;
-								int z = v45 + v32;
+							if((((int)hm >> mc) & 1) != 0) {
+								int ymc = 16 * mc;
+								char ids[16];
+								char metas[0x8];
+								pk->stream.Read(ids, 16);
+								pk->stream.Read(metas, 8);
+								int x = xw + xc;
+								int z = zw + zc;
+								int yc = 0;
 								do {
-									int v13 = v12 + v11;
-									int v14 = (uint8_t)dest[v12++];
-									int v33 = v10;
-									int v41 = v13;
-									int valid = Tile::transformToValidBlockId(v14, x, v13, z);
-									this->level->setTileNoUpdate(x, v41, z, valid);
-									v10 = v33;
-								} while(v12 != 16);
+									int y = yc + ymc;
+									int id = (uint8_t)ids[yc++];
+									int valid = Tile::transformToValidBlockId(id, x, y, z);
+									this->level->setTileNoUpdate(x, y, z, valid);
+								} while(yc != 16);
 
 								for(int i = 0; i < 8; ++i) { //XXX inlined into 2int assign?
-									v7->tileMeta.data[((v11 + (((v30 & 0xF) << 11) | (v30 >> 4 << 7))) >> 1) + i] = v48[i];
+									chunk->tileMeta.data[((ymc + (((index & 0xF) << 11) | (index >> 4 << 7))) >> 1) + i] = metas[i];
 								}
 							}
-							int v18 = v38;
-							int v19 = 16 << v9;
-							int v20 = (16 << v9) + 14;
-							if(v38 >= 16 << v9) {
-								v18 = 16 << v9;
+							int v18 = minY;
+							int v19 = 16 << mc;
+							int v20 = (16 << mc) + 14;
+							if(minY >= 16 << mc) {
+								v18 = 16 << mc;
 							}
-							++v9;
-							if(v20 >= v39) {
-								v39 = v19 + 15;
+							++mc;
+							if(v20 >= maxY) {
+								maxY = v19 + 15;
 							}
-							v38 = v18;
-						} while(v9 != 8);
+							minY = v18;
+						} while(mc != 8);
 						int v21 = v35;
 						v31 = 1;
-						if(v29 >= v10) {
-							v29 = v10;
+						if(v29 >= zc) {
+							v29 = zc;
 						}
 						int v22 = v36;
-						if(v35 >= v34) {
-							v21 = v30 & 0xF;
+						if(v35 >= xc) {
+							v21 = index & 0xF;
 						}
-						if(v36 < v34) {
-							v22 = v30 & 0xF;
+						if(v36 < xc) {
+							v22 = index & 0xF;
 						}
 						v35 = v21;
 						v36 = v22;
-						if(v10 > v37) {
-							v37 = v10;
+						if(zc > v37) {
+							v37 = zc;
 						}
 					}
-					++v30;
-				} while(v30 != 256);
-
-				if(v31) {
-					this->level->setTilesDirty(16 * a3->xPos + v35, v38, 16 * a3->zPos + v29, 16 * a3->xPos + v36, v39, 16 * a3->zPos + v37);
 				}
 
-				v7->unsaved = 0;
-				this->chunksLoadedMaybe[16 * a3->xPos + a3->zPos] = 1;
+				if(v31) {
+					this->level->setTilesDirty(16 * pk->xPos + v35, minY, 16 * pk->zPos + v29, 16 * pk->xPos + v36, maxY, 16 * pk->zPos + v37);
+				}
+
+				chunk->unsaved = 0;
+				this->chunksLoadedMaybe[16 * pk->xPos + pk->zPos] = 1;
 				if(this->areAllChunksLoaded()) {
 					ReadyPacket v47(2);
 					this->field_C->send(v47);

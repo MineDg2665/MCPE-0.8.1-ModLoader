@@ -98,7 +98,7 @@ struct AppPlatform_android : AppPlatform{
 	virtual int32_t getKeyFromKeyCode(int32_t, int32_t, int32_t);
 	virtual void buyGame(void);
 	virtual void finish(void);
-	virtual bool_t supportsTouchscreen(void);
+	virtual bool supportsTouchscreen(void);
 	virtual bool_t supportsVibration(void);
 	virtual void vibrate(int32_t);
 	virtual std::string getPlatformStringVar(int32_t);

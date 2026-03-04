@@ -138,11 +138,11 @@ void NinecraftApp::update(void){
 	++this->field_D4C;
 	Multitouch::commit();
 	Minecraft::update();
-	if(this->context.field_10){
 #if defined(ANDROID) and defined(USEGLES)
+	if(this->context.field_10){
 		eglSwapBuffers(this->context.field_0, this->context.field_8);
-#endif
 	}
+#endif
 	Mouse::reset2();
 	if(this->level){
 		if(this->rakNetInstance->isProbablyBroken()){

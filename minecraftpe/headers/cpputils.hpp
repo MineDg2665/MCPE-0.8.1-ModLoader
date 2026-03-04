@@ -32,3 +32,4 @@ int FUNC_ERRNO();
 int FUNC_MKDIR(const char*);
 bool createFolderIfNotExists(const char*);
 bool createTree(const char*, const char**, int);
+int getRawTimeS();

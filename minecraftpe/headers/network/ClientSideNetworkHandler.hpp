@@ -60,7 +60,7 @@ struct ClientSideNetworkHandler: NetEventCallback
 	virtual void handle(const RakNet::RakNetGUID&, struct LevelEventPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, struct TileEventPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, struct EntityEventPacket*);
-	virtual void handle(const RakNet::RakNetGUID&, struct ChunkDataPacket*);
+	virtual void handle(const RakNet::RakNetGUID&, struct ChunkDataPacket* pk);
 	virtual void handle(const RakNet::RakNetGUID&, struct PlayerEquipmentPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, struct PlayerArmorEquipmentPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, struct SetEntityDataPacket*);

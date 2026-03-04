@@ -20,5 +20,5 @@ inline void _android_debug_thingy(const char* fmt, ...){
 #endif
 
 #else
-#define DEBUGMSG(m)
+#define DEBUGMSG(...)
 #endif

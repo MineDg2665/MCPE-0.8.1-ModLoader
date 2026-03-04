@@ -166,6 +166,10 @@ void AppPlatform_sdl::onKeyPressed(Minecraft* mc, SDLKey key, bool pressed) {
 
 }
 
+bool AppPlatform_sdl::supportsTouchscreen() {
+	return 0;
+}
+
 #include <util/Util.hpp>
 #include <unistd.h>
 MeshBuffer cube;

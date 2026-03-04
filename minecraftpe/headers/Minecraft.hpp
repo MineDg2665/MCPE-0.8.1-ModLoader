@@ -37,7 +37,8 @@ struct Minecraft : App{
 	MouseHandler mouseHandler;
 	struct RakNetInstance* rakNetInstance;
 	struct NetEventCallback* serverSideNetworkHandler;
-	int32_t field_C50, field_C54, field_C58, field_C5C;
+	int32_t field_C50, field_C54, field_C58;
+	int field_C5C;
 	User* user;
 	struct Level* level;
 	struct LocalPlayer* player;

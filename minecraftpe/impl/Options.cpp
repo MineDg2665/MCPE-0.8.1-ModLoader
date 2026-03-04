@@ -369,7 +369,7 @@ void Options::initDefaultValues(void) {
 	this->setAdditionalHiddenOptions({});
 }
 bool_t Options::hideOption(const Options::Option* a2) {
-	if(a2 == &Options::Option::USE_TOUCHSCREEN && this->minecraft->supportNonTouchscreen()) {
+	if(a2 == &Options::Option::USE_TOUCHSCREEN && !this->minecraft->supportNonTouchscreen()) {
 		return 1;
 	}
 	for(int32_t i = 0; i < this->hiddenOptionsVec.size(); ++i) {

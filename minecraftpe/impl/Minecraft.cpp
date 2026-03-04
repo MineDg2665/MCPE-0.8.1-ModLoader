@@ -48,6 +48,7 @@
 #include <network/ServerCommandParser.hpp>
 #include <entity/MobFactory.hpp>
 #include <rendering/EntityRenderDispatcher.hpp>
+#include <cpputils.hpp>
 
 char_t* Minecraft::progressMessages[] = {"Locating server", "Building terrain", "Preparing", "Saving chunks", "Waiting for Minecraft Realms"};
 
@@ -399,9 +400,27 @@ bool_t Minecraft::hostMultiplayer(int32_t port) {
 	this->serverSideNetworkHandler = new ServerSideNetworkHandler(this, this->rakNetInstance);
 	return this->rakNetInstance->host(this->user->username, port, 4u);
 }
+
+static int sub_D65CF2E4(std::string s) {
+	int v11 = 0;
+	FILE* f = fopen(s.c_str(), "r");
+	if(!f || (fscanf(f, "%d", &v11), fclose(f), !v11)) {
+		FILE* v5 = fopen(s.c_str(), "w");
+		if(v5) {
+			int rawTimeS = getRawTimeS();
+			Random v10(1000 * rawTimeS);
+			unsigned char v7 = -24 * rawTimeS;
+			int v9 = v7 + (v10.genrand_int32() >> 1 << 8);
+			fprintf(v5, "%d", v9);
+			fclose(v5);
+		}
+	}
+	return v11;
+}
+
 void Minecraft::init(void) {
-	//TODO something related to clientId.txt
-	this->supportsNonTouchScreen = this->platform()->supportsTouchscreen();
+	this->field_C5C = sub_D65CF2E4(this->field_D00 + "/clientId.txt");
+	this->supportsNonTouchScreen = !this->platform()->supportsTouchscreen();
 	this->options.init(this, this->field_D00);
 	this->options.update();
 	this->externalServerFile = std::shared_ptr<ExternalServerFile>(new ExternalServerFile(this->field_D00));
@@ -1209,9 +1228,8 @@ bool_t Minecraft::useTouchscreen(void) {
 #ifdef ANDROID
 	return this->options.useTouchscreen || !this->supportsNonTouchScreen;
 #else
-	return 1;
 	//TODO touchscreen support
-	//return this->options.useTouchscreen || !this->supportsNonTouchScreen;
+	return this->options.useTouchscreen || !this->supportsNonTouchScreen;
 #endif
 }
 Minecraft::~Minecraft() {

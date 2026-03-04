@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <network/mco/RestRequestJob.hpp>
+#include <sys/time.h>
 
 template<>
 void safeStopAndRemove<std::shared_ptr<RestRequestJob>>(std::shared_ptr<RestRequestJob>& a2) {
@@ -97,4 +98,10 @@ bool createTree(const char* a1, const char** a2, int a3) {
 		}
 	}
 	return 1;
+}
+
+int getRawTimeS() {
+	struct timeval v1;
+	gettimeofday(&v1, 0);
+	return v1.tv_sec;
 }

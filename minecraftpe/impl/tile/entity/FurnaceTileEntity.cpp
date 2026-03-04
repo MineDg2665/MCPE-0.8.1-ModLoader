@@ -243,7 +243,7 @@ bool_t FurnaceTileEntity::isFinished() {
 }
 void FurnaceTileEntity::setRemoved() {
 	if(!this->field_64) {
-		this->setRemoved();
+		TileEntity::setRemoved();
 	}
 }
 ItemInstance* FurnaceTileEntity::getItem(int32_t a2) {
