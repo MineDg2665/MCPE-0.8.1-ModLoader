@@ -2,7 +2,7 @@
 
 IContainerListener::~IContainerListener() {
 }
-void IContainerListener::refreshContainer(BaseContainerMenu*, const std::vector<ItemInstance>) {
+void IContainerListener::refreshContainer(BaseContainerMenu*, const std::vector<ItemInstance>&) {
 }
 void IContainerListener::slotChanged(BaseContainerMenu*, int32_t, const ItemInstance&, bool_t) {
 }

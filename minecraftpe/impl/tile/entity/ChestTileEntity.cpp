@@ -213,7 +213,6 @@ void ChestTileEntity::tick() {
 	float v15;		// s20
 	float v16;		// s19
 	float v17;		// s18
-	Level* v18;		// r6
 	float a2;		// [sp+18h] [bp-38h] BYREF
 	float a3;		// [sp+1Ch] [bp-34h] BYREF
 	float a4;		// [sp+20h] [bp-30h] BYREF
@@ -280,7 +279,7 @@ LABEL_19:
 			v15 = a2;
 			v16 = a3;
 			v17 = a4;
-			v18->playSound(v15 + 0.5, v16 + 0.5, v17 + 0.5, "random.chestclosed", 0.5, (float)(v18->random.nextFloat() * 0.1) + 0.9);
+			this->level->playSound(v15 + 0.5, v16 + 0.5, v17 + 0.5, "random.chestclosed", 0.5, (float)(this->level->random.nextFloat() * 0.1) + 0.9);
 		}
 		if(this->field_84 < 0.0) {
 			this->field_84 = 0.0;

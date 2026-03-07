@@ -548,7 +548,7 @@ void LocalPlayer::closeContainer() {
 	Player::closeContainer();
 	this->minecraft->setScreen(0);
 }
-void LocalPlayer::refreshContainer(BaseContainerMenu*, const std::vector<ItemInstance>) {
+void LocalPlayer::refreshContainer(BaseContainerMenu*, const std::vector<ItemInstance>&) {
 }
 void LocalPlayer::slotChanged(BaseContainerMenu* a2, int32_t a3, const ItemInstance& a4, bool_t a5) {
 	if(this->level->isClientMaybe && a2 == &this->inventoryMenu) {

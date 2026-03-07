@@ -15,6 +15,12 @@ void BaseContainerMenu::setData(int32_t, int32_t) {
 void BaseContainerMenu::setListener(IContainerListener* a2) {
 	this->containerListener = a2;
 	if(a2) {
+		std::vector<ItemInstance> v9 = this->getItems();
+		{
+			//TODO some extremely weird exchange happens for some reason
+			std::vector<ItemInstance> v10(this->field_C);
+			this->field_C = v9;
+		}
 		a2->refreshContainer(this, this->field_C);
 	}
 }

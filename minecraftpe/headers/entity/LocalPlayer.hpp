@@ -67,6 +67,6 @@ struct LocalPlayer: Player, IContainerListener
 	virtual void openTextEdit(TileEntity*);
 	virtual bool_t isLocalPlayer();
 	virtual void closeContainer();
-	virtual void refreshContainer(BaseContainerMenu*, const std::vector<ItemInstance>);
+	virtual void refreshContainer(BaseContainerMenu*, const std::vector<ItemInstance>&);
 	virtual void slotChanged(BaseContainerMenu*, int32_t, const ItemInstance&, bool_t);
 };
