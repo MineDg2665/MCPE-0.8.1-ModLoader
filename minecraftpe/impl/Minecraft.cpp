@@ -689,8 +689,10 @@ void Minecraft::prepareLevel(const std::string& a2) {
 void* Minecraft::prepareLevel_tspawn(void* a2) {
 	((Minecraft*)a2)->generateLevel("Currently not used", ((Minecraft*)a2)->level);
 #ifdef EVILOREOBROKEPTHREADS
-	pthread_mutex_lock(&((Minecraft*)a2)->prepareLevelThread->lock);
-	pthread_mutex_unlock(&((Minecraft*)a2)->prepareLevelThread->lock);
+	if(((Minecraft*)a2)->prepareLevelThread){
+		pthread_mutex_lock(&((Minecraft*)a2)->prepareLevelThread->lock);
+		pthread_mutex_unlock(&((Minecraft*)a2)->prepareLevelThread->lock);
+	}
 	sleepMs(20);
 #endif
 	return 0;
