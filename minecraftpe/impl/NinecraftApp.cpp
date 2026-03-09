@@ -117,7 +117,7 @@ NinecraftApp::~NinecraftApp(void){
 }
 bool_t NinecraftApp::onLowMemory(void){
 	//TODO check
-	if(glBufferPool.unusedBuffers.size() == 0) return 0;
+	if(glBufferPool.unusedBuffers.empty()) return 0;
 	while(glBufferPool.unusedBuffers.back() != glBufferPool.unusedBuffers.front()){
 		uint32_t s = glBufferPool.unusedBuffers.at(0);
 		glDeleteBuffers(1, &s);

@@ -2177,7 +2177,7 @@ LABEL_8:
 		}
 		LightUpdate v21(a2, a3, a4, minZ, maxX, maxY, maxZ);
 		this->lightsToUpdate.emplace_back(v21);
-		if(this->lightsToUpdate.size() > 1000000) { //TODO check size(in b1.7 it is 1000000)
+		if(this->lightsToUpdate.size() > 1000000) {
 			this->lightsToUpdate.clear();
 		}
 		--_D6E4DF94;

@@ -29,7 +29,7 @@ void GLBufferPool::release(uint32_t n){
 }
 
 GLuint GLBufferPool::get(){
-	if(this->unusedBuffers.size() < this->reserveCnt) {
+if(this->unusedBuffers.size() < this->reserveCnt) {
 		while(this->unusedBuffers.size() < this->reserveCnt) {
 			unsigned int bf;
 			glGenBuffers(1, &bf);
@@ -41,6 +41,7 @@ GLuint GLBufferPool::get(){
 	if(this->unusedBuffers.empty()) {
 		return 0;
 	}
+
 	uint32_t bf = this->unusedBuffers.front();
 	this->unusedBuffers.pop_front();
 	this->usedBuffers.insert(bf);

@@ -37,12 +37,23 @@ AppPlatform::AppPlatform(void){
 	std::string exts = str ? str : "";
 	printf("exts: %s\n", str);
 	if(exts.find("GL_APPLE_texture_max_level", 0) == -1) maxTextureLevel = 0;
-	else maxTextureLevel = GL_TEXTURE_MAX_LEVEL; //0x813D
+	else{
+#ifdef USEGLES
+		maxTextureLevel = GL_APPLE_texture_max_level; //0x813D
+#else
+		maxTextureLevel = GL_TEXTURE_MAX_LEVEL; //0x813D
+#endif
+	}
 	AppPlatform::TEXTURE_MAX_LEVEL = maxTextureLevel;
-	//maxTextureLevel;
 
 	if(exts.find("GL_EXT_texture_filter_anisotropic", 0) == -1) anisotropicFilter = 0;
-	else anisotropicFilter = GL_TEXTURE_MAX_ANISOTROPY; //0x84FE
+	else{
+#ifdef USEGLES
+		anisotropicFilter = GL_EXT_texture_filter_anisotropic; //0x84FE
+#else
+		anisotropicFilter = GL_TEXTURE_MAX_ANISOTROPY; //0x84FE
+#endif
+	}
 	AppPlatform::ANISOTROPIC_MAX_LEVEL = anisotropicFilter;
 	if(anisotropicFilter) glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &AppPlatform::ANISOTROPIC_MAX_LEVEL);
 #endif

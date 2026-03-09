@@ -349,8 +349,8 @@ void LevelRenderer::cullAndSort(FrustumCuller* a2, float a3, float a4) {
 	this->field_38 = 0;
 	Vec3 v37(ve->prevPosX + (float)((float)(ve->posX - ve->prevPosX) * a4), ve->prevPosY + (float)((float)(ve->posY - ve->prevPosY) * a4), ve->prevPosZ + (float)((float)(ve->posZ - ve->prevPosZ) * a4));
 
-	this->field_19C.clear(); //TODO check
-	this->field_1B4.clear();
+	this->nearChunks.clear(); //TODO check
+	this->farChunks.clear();
 	static Vec3 _D6E0698C(8, 8, 8);
 	float v17 = a3 * a3;
 	for(int i = 0; i < this->chunksToRenderSize; ++i) {
@@ -368,16 +368,16 @@ void LevelRenderer::cullAndSort(FrustumCuller* a2, float a3, float a4) {
 
 			float v21 = (float)((float)((float)(v39.y + v39.y) * (float)(v39.y + v39.y)) + (float)(v39.x * v39.x)) + (float)(v39.z * v39.z);
 			if(v21 >= (float)(v17 * 0.5)) {
-				this->field_1B4.insert({v21, v19});
+				this->farChunks.insert({v21, v19});
 			} else {
-				this->field_19C.insert({v21, v19});
+				this->nearChunks.insert({v21, v19});
 			}
 		}
 	}
 
 	++this->field_24;
 	this->totalLoaded = chunksToRenderSize;
-	this->totalRendered = this->field_19C.size() + this->field_1B4.size();
+	this->totalRendered = this->nearChunks.size() + this->farChunks.size();
 }
 void LevelRenderer::deleteChunks() {
 	RenderChunk* v2;	  // r6
@@ -481,7 +481,7 @@ int32_t LevelRenderer::renderChunks(int32_t a2, float a3, bool_t a4) {
 		v10 = 0;
 		Mob* ve = this->minecraft->viewEntityMaybe;
 		glTranslatef(-(float)(ve->prevPosX + (float)((float)(ve->posX - ve->prevPosX) * a3)), -(float)(ve->prevPosY + (float)((float)(ve->posY - ve->prevPosY) * a3)), -(float)(ve->prevPosZ + (float)((float)(ve->posZ - ve->prevPosZ) * a3)));
-		for(auto&& i = this->field_19C.begin(); i != this->field_19C.end(); ++i) {
+		for(auto&& i = this->nearChunks.begin(); i != this->nearChunks.end(); ++i) {
 			MeshBuffer* mb = i->second->getRenderChunk(a2);
 			if(mb->isValid()) {
 				glPushMatrix();
@@ -491,7 +491,7 @@ int32_t LevelRenderer::renderChunks(int32_t a2, float a3, bool_t a4) {
 			}
 		}
 		if(a2 == 2) {
-			for(auto&& i = this->field_1B4.begin(); i != this->field_1B4.end(); ++i) {
+			for(auto&& i = this->farChunks.begin(); i != this->farChunks.end(); ++i) {
 				MeshBuffer* mb = i->second->getRenderChunk(2);
 				if(mb->isValid()) {
 					glPushMatrix();
@@ -760,7 +760,7 @@ int32_t LevelRenderer::renderFarChunks(float a2) {
 		v4 = 0;
 		viewEntityMaybe = this->minecraft->viewEntityMaybe;
 		glTranslatef(-(float)(viewEntityMaybe->prevPosX + (float)((float)(viewEntityMaybe->posX - viewEntityMaybe->prevPosX) * a2)), -(float)(viewEntityMaybe->prevPosY + (float)((float)(viewEntityMaybe->posY - viewEntityMaybe->prevPosY) * a2)), -(float)(viewEntityMaybe->prevPosZ + (float)((float)(viewEntityMaybe->posZ - viewEntityMaybe->prevPosZ) * a2)));
-		for(auto&& i = this->field_1B4.begin(); i != this->field_1B4.end(); ++i) {
+		for(auto&& i = this->farChunks.begin(); i != this->farChunks.end(); ++i) {
 			RenderChunk* v6 = i->second;
 			if(!v6->built || !v6->skipRenderMaybe) {
 				MeshBuffer* rc = v6->getRenderChunk(0);
@@ -1033,7 +1033,7 @@ int32_t LevelRenderer::renderStencilChunks(float a2) {
 	v4 = 0;
 	ve = this->minecraft->viewEntityMaybe;
 	glTranslatef(-(float)(ve->prevPosX + (float)((float)(ve->posX - ve->prevPosX) * a2)), -(float)(ve->prevPosY + (float)((float)(ve->posY - ve->prevPosY) * a2)), -(float)(ve->prevPosZ + (float)((float)(ve->posZ - ve->prevPosZ) * a2)));
-	for(auto&& i = this->field_1B4.begin(); i != this->field_1B4.end(); ++i) {
+	for(auto&& i = this->farChunks.begin(); i != this->farChunks.end(); ++i) {
 		MeshBuffer* rc = i->second->getRenderChunk(2);
 		glPushMatrix();
 		glTranslatef(rc->transformX, rc->transformY, rc->transformZ);

@@ -68,8 +68,8 @@ struct LevelRenderer: LevelListener, AppPlatform::Listener
 	Textures* textures;
 	std::multimap<int32_t, Entity*, std::greater<int>> field_178;
 	std::vector<TileEntity *> field_190;
-	std::multimap<float, RenderChunk*> field_19C; //TODO not sure is this multimap or map, but seems to be more stable with multimap
-	std::multimap<float, RenderChunk*> field_1B4; //TODO same as above
+	std::multimap<float, RenderChunk*> nearChunks; //TODO not sure is this multimap or map, but seems to be more stable with multimap
+	std::multimap<float, RenderChunk*> farChunks; //TODO same as above
 	Vec3 field_1CC;
 	TextureAtlasTextureItem destroyTexture;
 	float shadowRed;

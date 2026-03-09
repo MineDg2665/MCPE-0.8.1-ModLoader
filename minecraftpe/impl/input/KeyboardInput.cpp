@@ -89,7 +89,7 @@ void KeyboardInput::releaseAllKeys() {
 	}
 	this->flyDownPressed = 0;
 	this->flyUpPressed = 0;
-#ifdef PCTWEAKS
+#ifdef DIFFERENTTWEAKS
 	//force release keys to prevent jumping/sneaking in guis
 	this->jumpingMaybe = 0;
 	this->sneakingMaybe = 0;
