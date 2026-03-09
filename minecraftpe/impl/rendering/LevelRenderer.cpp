@@ -1357,9 +1357,6 @@ void LevelRenderer::allChanged() {
 	int y;				  // r7
 	int v20;			  // [sp+14h] [bp-44h]
 	RenderChunk* v21;	  // [sp+20h] [bp-38h] BYREF
-	int v22;			  // [sp+24h] [bp-34h]
-	int v23;			  // [sp+28h] [bp-30h]
-	int v24;			  // [sp+2Ch] [bp-2Ch]
 
 	this->deleteChunks();
 	for(Tile* t: Tile::tiles) {
@@ -1368,9 +1365,6 @@ void LevelRenderer::allChanged() {
 		}
 	}
 
-	v22 = 0x7F7FFFFF;
-	v23 = 0x7F7FFFFF;
-	v24 = 0x7F7FFFFF;
 	this->field_1CC.x = FLT_MAX;
 	this->field_1CC.y = FLT_MAX;
 	this->field_1CC.z = FLT_MAX;

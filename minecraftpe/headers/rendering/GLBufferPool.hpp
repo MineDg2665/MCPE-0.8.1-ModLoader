@@ -1,15 +1,17 @@
 #pragma once
 #include <_types.h>
-#include <unordered_map>
+#include <set>
 #include <deque>
 #include <unigl.h>
 
 extern struct GLBufferPool glBufferPool;
 
 struct GLBufferPool{
-	std::unordered_map<uint32_t, uint32_t> field_0; //XXX std::_Hashtable, idk what is it
-	std::deque<uint32_t> buffers;
+	std::set<uint32_t> usedBuffers;
+	std::deque<uint32_t> unusedBuffers;
+	int reserveCnt;
 
+	GLBufferPool(unsigned int reserveCnt); //inlined by compiler, type: unsigned int according to x86 version
 	GLuint get(void);
 	void release(uint32_t);
 	bool_t trim(void);

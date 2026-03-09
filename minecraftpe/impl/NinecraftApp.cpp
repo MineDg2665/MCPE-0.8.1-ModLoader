@@ -117,11 +117,11 @@ NinecraftApp::~NinecraftApp(void){
 }
 bool_t NinecraftApp::onLowMemory(void){
 	//TODO check
-	if(glBufferPool.buffers.size() == 0) return 0;
-	while(glBufferPool.buffers.back() != glBufferPool.buffers.front()){
-		uint32_t s = glBufferPool.buffers.at(0);
+	if(glBufferPool.unusedBuffers.size() == 0) return 0;
+	while(glBufferPool.unusedBuffers.back() != glBufferPool.unusedBuffers.front()){
+		uint32_t s = glBufferPool.unusedBuffers.at(0);
 		glDeleteBuffers(1, &s);
-		glBufferPool.buffers.pop_front();
+		glBufferPool.unusedBuffers.pop_front();
 	}
 	return 1;
 }

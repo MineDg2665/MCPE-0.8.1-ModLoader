@@ -68,6 +68,7 @@ MeshBuffer* RenderChunk::getRenderChunk(int32_t a2) {
 bool_t RenderChunk::isDirty() {
 	return this->dirty;
 }
+
 void RenderChunk::rebuild(void) {
 	int32_t yPos;				// r7
 	int32_t v3;					// r2
@@ -177,6 +178,7 @@ void RenderChunk::rebuild(void) {
 				}
 			}
 		}
+
 		this->touchedSky = LevelChunk::touchedSky;
 		this->built = 1;
 	}

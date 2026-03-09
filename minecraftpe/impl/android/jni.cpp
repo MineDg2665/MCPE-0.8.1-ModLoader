@@ -8,8 +8,8 @@
 
 jobject mainActivity_ref;
 extern "C" {
-JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
+JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 	struct timeval v1;
 	gettimeofday(&v1, 0);
 	startedAtSec = v1.tv_sec; //TODO mojang does it differently?

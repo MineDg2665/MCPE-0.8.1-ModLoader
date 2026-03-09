@@ -322,7 +322,6 @@ void AppPlatform_sdl::init(){
 			}
 		}
 
-
 		//TODO engine stuff
 
 		/*Tesselator::instance.begin(4);
@@ -360,6 +359,7 @@ void AppPlatform_sdl::init(){
 		cube = Tesselator::instance.end();*/
 		//TODO contextWasLost
 		//else{
+		//printf("BUFSIZES %d+%d=%d\n", glBufferPool.unusedBuffers.size(), glBufferPool.usedBuffers.size(), glBufferPool.unusedBuffers.size()+glBufferPool.usedBuffers.size());
 			mc->update();
 		//}
 		/*glViewport(0, 0, mc->field_1C, mc->field_20);

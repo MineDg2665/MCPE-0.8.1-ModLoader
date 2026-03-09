@@ -1,5 +1,10 @@
 #include <rendering/GLBufferPool.hpp>
-GLBufferPool glBufferPool;
+GLBufferPool glBufferPool(10);
+
+GLBufferPool::GLBufferPool(unsigned int reserveCnt) {
+	this->reserveCnt = reserveCnt;
+
+}
 
 GLBufferPool::~GLBufferPool(){
 	this->trim();
@@ -7,31 +12,37 @@ GLBufferPool::~GLBufferPool(){
 
 bool_t GLBufferPool::trim(){
 	//TODO check is correct
-	if(this->buffers.size() == 0){
+	if(this->unusedBuffers.size() == 0){
 		return 0;
 	}
-
-	for(uint32_t e : this->buffers){
-		glDeleteBuffers(1, &e);
+	while(!this->unusedBuffers.empty()) {
+		glDeleteBuffers(1, &this->unusedBuffers.front());
+		this->unusedBuffers.pop_front();
 	}
 	return 1;
 }
 
 void GLBufferPool::release(uint32_t n){
 	uint32_t v4;
-
-	v4 = n;
-	this->buffers.push_back(v4);
-	this->field_0.erase(v4);
+	this->unusedBuffers.push_back(n);
+	this->usedBuffers.erase(v4);
 }
 
 GLuint GLBufferPool::get(){
-	//TODO check is correct
-	GLuint bf;
-	glGenBuffers(1, &bf);
-	if(glGetError()) return 0; //this is in loop
-	this->buffers.push_front(bf);
-	//this->field_0.insert(0, bf); //TODO idk what is supposed to be there
+	if(this->unusedBuffers.size() < this->reserveCnt) {
+		while(this->unusedBuffers.size() < this->reserveCnt) {
+			unsigned int bf;
+			glGenBuffers(1, &bf);
+			if(glGetError()) break;
+			this->unusedBuffers.push_back(bf);
+		}
+	}
 
+	if(this->unusedBuffers.empty()) {
+		return 0;
+	}
+	uint32_t bf = this->unusedBuffers.front();
+	this->unusedBuffers.pop_front();
+	this->usedBuffers.insert(bf);
 	return bf;
 }
