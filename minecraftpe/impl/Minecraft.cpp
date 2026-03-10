@@ -1,3 +1,4 @@
+#include <ModLoader.hpp>
 #include <Minecraft.hpp>
 #include <ExternalServerFile.hpp>
 #include <ExternalServer.hpp>
@@ -433,6 +434,7 @@ void Minecraft::init(void) {
 	this->_reloadInput();
 	this->setSize(this->field_1C, this->field_20);
 	this->mojangConnector = std::shared_ptr<MojangConnector>(new MojangConnector(this));
+	(new ModLoader())->init(this);
 }
 bool_t Minecraft::isCreativeMode(void) {
 	return this->isCreative;
@@ -1221,6 +1223,7 @@ void Minecraft::update(void) {
 	double result = getTimeS();
 	this->field_D34 = result - this->timeStartedAtMaybe;
 	this->timeStartedAtMaybe = result;
+	if (ModLoader::instance) ModLoader::instance->hookTick();
 }
 
 void Minecraft::updateStatusUserAttributes(void) {
@@ -1236,4 +1239,5 @@ bool_t Minecraft::useTouchscreen(void) {
 #endif
 }
 Minecraft::~Minecraft() {
+	if (ModLoader::instance) { delete ModLoader::instance; }
 }

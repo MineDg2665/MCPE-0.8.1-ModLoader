@@ -1,3 +1,4 @@
+#include <ModLoader.hpp>
 #include <rendering/GameRenderer.hpp>
 #include <Minecraft.hpp>
 #include <entity/LocalPlayer.hpp>
@@ -533,6 +534,7 @@ LABEL_30:
 			}
 		}
 		this->renderLevel(pt);
+		if (ModLoader::instance) ModLoader::instance->hookRender(pt);
 		if(!this->minecraft->options.hideGUI) {
 			v27 = 1;
 			this->setupGuiScreen(0);
@@ -568,6 +570,7 @@ LABEL_34:
 	if(this->minecraft->currentScreen) {
 		this->minecraft->currentScreen->render(mx, my, pt);
 	}
+	if (ModLoader::instance) ModLoader::instance->hookGUI();
 }
 void GameRenderer::renderItemInHand(float a2, int32_t a3) {
 	Mob* viewEntityMaybe; // r3
