@@ -5,7 +5,7 @@ An attempt to decompile MCPE 0.8.1 and to make it possible to run it on differen
 
 This fork includes a built-in ModLoader that allows loading mods as `.so` shared libraries at runtime.
 
-Mods are loaded from `<game_data>/games/com.mojang/mods/` directory (created automatically on first launch).
+Mods are loaded from `/games/com.mojang/mods/` directory (created automatically on first launch).
 
 ### Building a mod
 
