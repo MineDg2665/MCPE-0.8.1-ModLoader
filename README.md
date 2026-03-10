@@ -1,6 +1,53 @@
 # MCPE 0.8.1
 An attempt to decompile MCPE 0.8.1 and to make it possible to run it on different platforms. Currently it should be possible to run it on linux and windows. The project is not affiliated with mojang or microsoft.
 
+## ModLoader
+
+This fork includes a built-in ModLoader that allows loading mods as `.so` shared libraries at runtime.
+
+Mods are loaded from `<game_data>/games/com.mojang/mods/` directory (created automatically on first launch).
+
+### Building a mod
+
+Create a `.cpp` file, for example `MyMod.cpp`:
+
+```cpp
+#include <ModLoader.hpp>
+
+class MyMod : public Mod {
+public:
+    const char* name() override { return "MyMod"; }
+    const char* version() override { return "1.0"; }
+    void onStart(Minecraft* mc) override {}
+    void onTick(Minecraft* mc) override {}
+};
+
+REGISTER_MOD(MyMod)
+```
+
+Build it from the project root directory:
+
+```
+g++ -std=c++11 -fPIC -shared -I./minecraftpe/headers -I./jsoncpp/jsoncpp/include -I./RakNet/Source -I./utf8proc -I./glm -I./stb -I. -Wl,--unresolved-symbols=ignore-all -o MyMod.so MyMod.cpp -lGL
+```
+
+Place the resulting `.so` file into `games/com.mojang/mods/` inside the game data directory.
+
+### Available mod hooks
+
+| Method | Description |
+|--------|-------------|
+| `onStart(Minecraft* mc)` | Called when mod is loaded |
+| `onStop()` | Called when mod is unloaded |
+| `onTick(Minecraft* mc)` | Called every game tick |
+| `onRender(Minecraft* mc, float delta)` | Called after level render |
+| `onGUI(Minecraft* mc)` | Called after GUI render |
+| `onTouch(Minecraft* mc, int action, float x, float y)` | Touch input, return true to consume |
+| `onKey(Minecraft* mc, int key, bool pressed)` | Key input, return true to consume |
+| `onMouseMove(Minecraft* mc, int x, int y)` | Mouse movement |
+| `onMouseDown(Minecraft* mc, int button, int x, int y)` | Mouse button press |
+| `onMouseUp(Minecraft* mc, int button, int x, int y)` | Mouse button release |
+
 ## Building
 
 ## Cloning the repo and extracting sounds
