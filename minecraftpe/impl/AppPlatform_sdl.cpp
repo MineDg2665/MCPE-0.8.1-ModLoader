@@ -1,4 +1,5 @@
 #ifndef ANDROID
+#include <ModLoader.hpp>
 #include <AppPlatform_sdl.hpp>
 #include <_AssetFile.hpp>
 #include <NinecraftApp.hpp>
@@ -163,6 +164,9 @@ void AppPlatform_sdl::onKeyPressed(Minecraft* mc, SDLKey key, bool pressed) {
 	if(k) {
 		Keyboard::feed(k, pressed);
 	}
+	if (ModLoader::instance && pressed) {
+		ModLoader::instance->hookKey((int)key, pressed);
+	}
 
 }
 
@@ -259,6 +263,11 @@ void AppPlatform_sdl::init(){
 					_mx = appPlatform.sdl_event.motion.x;
 					_my = appPlatform.sdl_event.motion.y;
 					Mouse::feed(0, 0, _mx, _my,appPlatform.sdl_event.motion.xrel, appPlatform.sdl_event.motion.yrel);
+					if (ModLoader::instance && !mc->mouseGrabbed) {
+						int gx = (int)(_mx * (float)mc->field_1C / (float)this->screenWidth);
+						int gy = (int)(_my * (float)mc->field_20 / (float)this->screenHeight);
+						ModLoader::instance->hookMouseMove(gx, gy);
+					}
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 				case SDL_MOUSEBUTTONUP:
@@ -290,6 +299,15 @@ void AppPlatform_sdl::init(){
 						}
 					} else if(appPlatform.sdl_event.button.button == SDL_BUTTON_LEFT || appPlatform.sdl_event.button.button == SDL_BUTTON_RIGHT){
 						Mouse::feed(appPlatform.sdl_event.button.button == SDL_BUTTON_LEFT ? 1 : 2, appPlatform.sdl_event.type == SDL_MOUSEBUTTONDOWN, _mx, _my);
+						if (ModLoader::instance) {
+							int gx = (int)(_mx * (float)mc->field_1C / (float)this->screenWidth);
+							int gy = (int)(_my * (float)mc->field_20 / (float)this->screenHeight);
+							int btn = (appPlatform.sdl_event.button.button == SDL_BUTTON_LEFT) ? 1 : 3;
+							if (appPlatform.sdl_event.type == SDL_MOUSEBUTTONDOWN)
+								ModLoader::instance->hookMouseDown(btn, gx, gy);
+							else
+								ModLoader::instance->hookMouseUp(btn, gx, gy);
+						}
 					}
 					break;
 				case SDL_KEYDOWN:
