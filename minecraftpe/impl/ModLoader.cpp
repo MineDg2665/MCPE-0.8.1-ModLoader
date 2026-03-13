@@ -16,6 +16,11 @@
 #define ERR(...) do { fprintf(stderr, "[ModLoader ERROR] "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); } while(0)
 #endif
 
+#ifdef _WIN32
+#include <direct.h>
+#define mkdir(path, mode) _mkdir(path)
+#endif
+
 ModLoader* ModLoader::instance = nullptr;
 
 ModLoader::ModLoader() : mc(nullptr) {
