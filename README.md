@@ -25,6 +25,8 @@ public:
 REGISTER_MOD(MyMod)
 ```
 
+#### Desktop (Linux)
+
 Build it from the project root directory:
 
 ```
@@ -32,6 +34,26 @@ g++ -std=c++11 -fPIC -shared -I./minecraftpe/headers -I./jsoncpp/jsoncpp/include
 ```
 
 Place the resulting `.so` file into `games/com.mojang/mods/` inside the game data directory.
+
+#### Android
+
+Use the provided `build_mod.sh` script from the project root:
+
+```
+./build_mod.sh MyMod.cpp
+```
+
+This produces `MyMod-armeabi-v7a.so` and `MyMod-arm64-v8a.so`.
+
+The script automatically searches for the Android NDK.
+If auto-detection fails, set the NDK path manually:
+
+```
+export ANDROID_NDK_HOME=/path/to/your/ndk
+./build_mod.sh MyMod.cpp
+```
+
+Place the correct `.so` file for your device architecture into `games/com.mojang/mods/` on the device.
 
 ### Available mod hooks
 
