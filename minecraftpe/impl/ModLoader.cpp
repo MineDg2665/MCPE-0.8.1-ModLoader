@@ -162,3 +162,11 @@ void ModLoader::hookMouseUp(int button, int x, int y) {
 	for (size_t i = 0; i < mods.size(); i++)
 		mods[i].mod->onMouseUp(mc, button, x, y);
 }
+
+bool ModLoader::hookRawInput(void* inputEvent) {
+	for (size_t i = 0; i < mods.size(); i++) {
+		if (mods[i].mod->onRawInput(mc, inputEvent))
+			return true;
+	}
+	return false;
+}
