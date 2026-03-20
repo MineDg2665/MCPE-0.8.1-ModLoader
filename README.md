@@ -69,6 +69,7 @@ Place the correct `.so` file for your device architecture into `games/com.mojang
 | `onMouseMove(Minecraft* mc, int x, int y)` | Mouse movement |
 | `onMouseDown(Minecraft* mc, int button, int x, int y)` | Mouse button press |
 | `onMouseUp(Minecraft* mc, int button, int x, int y)` | Mouse button release |
+| `onRawInput(Minecraft* mc, void* inputEvent)` | Raw platform input (AInputEvent* on Android), return true to consume |
 
 ## Building
 
