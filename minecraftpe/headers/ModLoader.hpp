@@ -20,6 +20,7 @@ public:
 	virtual void onMouseMove(Minecraft* mc, int x, int y) {}
 	virtual void onMouseDown(Minecraft* mc, int button, int x, int y) {}
 	virtual void onMouseUp(Minecraft* mc, int button, int x, int y) {}
+	virtual bool onRawInput(Minecraft* mc, void* inputEvent) { return false; }
 };
 
 #define REGISTER_MOD(cls) extern "C" Mod* create_mod() { return new cls(); }
@@ -28,10 +29,10 @@ class ModLoader {
 public:
 	static ModLoader* instance;
 	Minecraft* mc;
-
+	
 	ModLoader();
 	~ModLoader();
-
+	
 	void init(Minecraft* minecraft);
 	void hookTick();
 	void hookRender(float delta);
@@ -41,7 +42,8 @@ public:
 	void hookMouseMove(int x, int y);
 	void hookMouseDown(int button, int x, int y);
 	void hookMouseUp(int button, int x, int y);
-
+	bool hookRawInput(void* inputEvent);
+	
 private:
 	struct Entry { void* handle; Mod* mod; };
 	std::vector<Entry> mods;
